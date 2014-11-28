@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<config>
+    <propel>
+        <database>
+            <connections>
+                <connection id="oimovel">
+                    <adapter>pgsql</adapter>
+                    <classname>Propel\Runtime\Connection\DebugPDO</classname>
+                    <dsn>pgsql:host=localhost;dbname=oimovel</dsn>
+                    <user>oimovel</user>
+                    <password>oimovel</password>
+                </connection>
+            </connections>
+        </database>
+        <runtime>
+            <defaultConnection>oimovel</defaultConnection>
+            <connection>oimovel</connection>
+        </runtime>
+        <generator>
+            <defaultConnection>oimovel</defaultConnection>
+            <connection>oimovel</connection>
+        </generator>
+    </propel>
+</config>
+
