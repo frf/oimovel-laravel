@@ -145,6 +145,7 @@ class ProdutoTableMap extends TableMap
         $this->setClassName('\\Produto');
         $this->setPackage('');
         $this->setUseIdGenerator(true);
+        $this->setPrimaryKeyMethodInfo('produto_co_produto_seq');
         // columns
         $this->addForeignKey('co_imovel', 'CoImovel', 'BIGINT', 'imovel', 'co_imovel', false, null, null);
         $this->addForeignKey('co_comodo', 'CoComodo', 'BIGINT', 'comodo', 'co_comodo', false, null, null);

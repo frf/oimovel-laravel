@@ -155,6 +155,7 @@ class UsersTableMap extends TableMap
         $this->setClassName('\\Users');
         $this->setPackage('');
         $this->setUseIdGenerator(true);
+        $this->setPrimaryKeyMethodInfo('users_id_seq');
         // columns
         $this->addColumn('time_created', 'TimeCreated', 'INTEGER', true, null, 0);
         $this->addColumn('name', 'Name', 'VARCHAR', true, 100, '');

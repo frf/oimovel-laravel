@@ -621,10 +621,10 @@ abstract class Imovel implements ActiveRecordInterface
                 // persist changes
                 if ($this->isNew()) {
                     $this->doInsert($con);
+                    $affectedRows += 1;
                 } else {
-                    $this->doUpdate($con);
+                    $affectedRows += $this->doUpdate($con);
                 }
-                $affectedRows += 1;
                 $this->resetModified();
             }
 
@@ -686,6 +686,15 @@ abstract class Imovel implements ActiveRecordInterface
         if (null !== $this->co_imovel) {
             throw new PropelException('Cannot insert a value for auto-increment primary key (' . ImovelTableMap::COL_CO_IMOVEL . ')');
         }
+        if (null === $this->co_imovel) {
+            try {
+                $dataFetcher = $con->query("SELECT nextval('imovel_co_imovel_seq')");
+                $this->co_imovel = $dataFetcher->fetchColumn();
+            } catch (Exception $e) {
+                throw new PropelException('Unable to get sequence id.', 0, $e);
+            }
+        }
+
 
          // check the columns in natural order for more readable SQL queries
         if ($this->isColumnModified(ImovelTableMap::COL_TIPO)) {
@@ -718,13 +727,6 @@ abstract class Imovel implements ActiveRecordInterface
             Propel::log($e->getMessage(), Propel::LOG_ERR);
             throw new PropelException(sprintf('Unable to execute INSERT statement [%s]', $sql), 0, $e);
         }
-
-        try {
-            $pk = $con->lastInsertId();
-        } catch (Exception $e) {
-            throw new PropelException('Unable to get autoincrement id.', 0, $e);
-        }
-        $this->setCoImovel($pk);
 
         $this->setNew(false);
     }

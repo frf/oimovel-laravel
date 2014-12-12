@@ -735,10 +735,10 @@ abstract class Produto implements ActiveRecordInterface
                 // persist changes
                 if ($this->isNew()) {
                     $this->doInsert($con);
+                    $affectedRows += 1;
                 } else {
-                    $this->doUpdate($con);
+                    $affectedRows += $this->doUpdate($con);
                 }
-                $affectedRows += 1;
                 $this->resetModified();
             }
 
@@ -766,6 +766,15 @@ abstract class Produto implements ActiveRecordInterface
         if (null !== $this->co_produto) {
             throw new PropelException('Cannot insert a value for auto-increment primary key (' . ProdutoTableMap::COL_CO_PRODUTO . ')');
         }
+        if (null === $this->co_produto) {
+            try {
+                $dataFetcher = $con->query("SELECT nextval('produto_co_produto_seq')");
+                $this->co_produto = $dataFetcher->fetchColumn();
+            } catch (Exception $e) {
+                throw new PropelException('Unable to get sequence id.', 0, $e);
+            }
+        }
+
 
          // check the columns in natural order for more readable SQL queries
         if ($this->isColumnModified(ProdutoTableMap::COL_CO_IMOVEL)) {
@@ -816,13 +825,6 @@ abstract class Produto implements ActiveRecordInterface
             Propel::log($e->getMessage(), Propel::LOG_ERR);
             throw new PropelException(sprintf('Unable to execute INSERT statement [%s]', $sql), 0, $e);
         }
-
-        try {
-            $pk = $con->lastInsertId();
-        } catch (Exception $e) {
-            throw new PropelException('Unable to get autoincrement id.', 0, $e);
-        }
-        $this->setCoProduto($pk);
 
         $this->setNew(false);
     }

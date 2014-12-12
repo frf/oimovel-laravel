@@ -1,1 +1,0 @@
-../../../vendor/bin/propel model:build --output-dir="../../models/propel"

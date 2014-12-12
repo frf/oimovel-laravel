@@ -140,6 +140,7 @@ class ComodoTableMap extends TableMap
         $this->setClassName('\\Comodo');
         $this->setPackage('');
         $this->setUseIdGenerator(true);
+        $this->setPrimaryKeyMethodInfo('comodo_co_comodo_seq');
         // columns
         $this->addColumn('no_imovel', 'NoImovel', 'VARCHAR', false, 200, null);
         $this->addColumn('tipo_comodo', 'TipoComodo', 'INTEGER', false, null, null);

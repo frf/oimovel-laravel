@@ -130,6 +130,7 @@ class ImovelTableMap extends TableMap
         $this->setClassName('\\Imovel');
         $this->setPackage('');
         $this->setUseIdGenerator(true);
+        $this->setPrimaryKeyMethodInfo('imovel_co_imovel_seq');
         // columns
         $this->addColumn('tipo', 'Tipo', 'INTEGER', false, null, 1);
         $this->addPrimaryKey('co_imovel', 'CoImovel', 'BIGINT', true, null, null);
