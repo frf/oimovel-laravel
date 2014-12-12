@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<database name="oimovel" defaultIdMethod="native" defaultPhpNamingMethod="underscore">
+  <table name="amigo" idMethod="native" phpName="Amigo">
+    <column name="data" phpName="Data" type="TIMESTAMP"/>
+    <column name="id_sorteou" phpName="IdSorteou" type="INTEGER"/>
+    <column name="sorteado" phpName="Sorteado" type="BOOLEAN" size="1" defaultValue="false"/>
+    <column name="nome" phpName="Nome" type="VARCHAR" size="200"/>
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <foreign-key foreignTable="amigo" name="amigo_id_sorteou_fkey">
+      <reference local="id_sorteou" foreign="id"/>
+    </foreign-key>
+  </table>
+  <table name="comodo" idMethod="native" phpName="Comodo">
+    <column name="no_imovel" phpName="NoImovel" type="VARCHAR" size="200"/>
+    <column name="tipo_comodo" phpName="TipoComodo" type="INTEGER"/>
+    <column name="co_imovel" phpName="CoImovel" type="BIGINT"/>
+    <column name="co_comodo" phpName="CoComodo" type="BIGINT" primaryKey="true" autoIncrement="true" required="true"/>
+    <foreign-key foreignTable="imovel" name="comodo_co_imovel_fkey" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference local="co_imovel" foreign="co_imovel"/>
+    </foreign-key>
+  </table>
+  <table name="imovel" idMethod="native" phpName="Imovel">
+    <column name="tipo" phpName="Tipo" type="INTEGER" defaultValue="1"/>
+    <column name="co_imovel" phpName="CoImovel" type="BIGINT" primaryKey="true" autoIncrement="true" required="true"/>
+  </table>
+  <table name="presente" idMethod="native" phpName="Presente">
+    <column name="id_usuario" phpName="IdUsuario" type="INTEGER"/>
+    <column name="nome" phpName="Nome" type="LONGVARCHAR"/>
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <foreign-key foreignTable="amigo" name="presente_id_usuario_fkey">
+      <reference local="id_usuario" foreign="id"/>
+    </foreign-key>
+  </table>
+  <table name="produto" idMethod="native" phpName="Produto">
+    <column name="co_imovel" phpName="CoImovel" type="BIGINT"/>
+    <column name="co_comodo" phpName="CoComodo" type="BIGINT"/>
+    <column name="vl_produto" phpName="VlProduto" type="VARCHAR" size="30"/>
+    <column name="no_produto" phpName="NoProduto" type="VARCHAR" size="250"/>
+    <column name="co_produto" phpName="CoProduto" type="BIGINT" primaryKey="true" autoIncrement="true" required="true"/>
+    <foreign-key foreignTable="comodo" name="produto_co_comodo_fkey" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference local="co_comodo" foreign="co_comodo"/>
+    </foreign-key>
+    <foreign-key foreignTable="imovel" name="produto_co_imovel_fkey" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference local="co_imovel" foreign="co_imovel"/>
+    </foreign-key>
+  </table>
+  <table name="user_custom_fields" idMethod="native" phpName="UserCustomFields">
+    <column name="value" phpName="Value" type="VARCHAR" size="255" defaultValue="NULL"/>
+    <column name="attribute" phpName="Attribute" type="VARCHAR" size="50" primaryKey="true" required="true" defaultValue=""/>
+    <column name="user_id" phpName="UserId" type="INTEGER" primaryKey="true" required="true"/>
+    <foreign-key foreignTable="users" name="user_custom_fields_user_id_fkey">
+      <reference local="user_id" foreign="id"/>
+    </foreign-key>
+  </table>
+  <table name="users" idMethod="native" phpName="Users">
+    <column name="time_created" phpName="TimeCreated" type="INTEGER" required="true" defaultValue="0"/>
+    <column name="name" phpName="Name" type="VARCHAR" size="100" required="true" defaultValue=""/>
+    <column name="roles" phpName="Roles" type="VARCHAR" size="255" required="true" defaultValue=""/>
+    <column name="salt" phpName="Salt" type="VARCHAR" size="255" required="true" defaultValue=""/>
+    <column name="password" phpName="Password" type="VARCHAR" size="255" defaultValue="NULL"/>
+    <column name="email" phpName="Email" type="VARCHAR" size="100" required="true" defaultValue=""/>
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <unique name="users_email_key">
+      <unique-column name="email" size="100"/>
+    </unique>
+  </table>
+</database>
